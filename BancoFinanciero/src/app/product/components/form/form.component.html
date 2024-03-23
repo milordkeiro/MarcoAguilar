@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="row">
+    <h2>Formulario de registro</h2>
+  </div>
+  <div class="row">
+    <div>
+      <form [formGroup]="dataProduct" (ngSubmit)="saveProduct()">
+        <div class="col-12">
+          <label>ID:</label>
+          <input
+            type="text"
+            name="idProduct"
+            [ngClass]="{
+              'form-control': true,
+              'invalid-feedback': dataProduct.controls['idProduct'].invalid
+            }"
+            id="idProduct"
+            [readOnly]="!isNewProduct"
+            formControlName="idProduct" />
+        </div>
+        <div class="col-12">
+          <label>Nombre:</label>
+          <input
+            type="text"
+            name="name"
+            [ngClass]="{
+              'form-control': true,
+              'invalid-feedback': dataProduct.controls['name'].invalid
+            }"
+            id="name"
+            formControlName="name" />
+        </div>
+        <div class="col-12">
+          <label>Descripcion:</label>
+          <input
+            type="text"
+            name="description"
+            [ngClass]="{
+              'form-control': true,
+              'invalid-feedback': dataProduct.controls['description'].invalid
+            }"
+            id="description"
+            formControlName="description" />
+        </div>
+        <div class="col-12">
+          <label>Logo:</label>
+          <input
+            type="text"
+            name="logo"
+            [ngClass]="{
+              'form-control': true,
+              'invalid-feedback': dataProduct.controls['logo'].invalid
+            }"
+            id="logo"
+            formControlName="logo" />
+        </div>
+        <div class="col-12">
+          <label>Fecha liberacion:</label>
+          <input
+            type="date"
+            name="date_release"
+            [ngClass]="{
+              'form-control': true,
+              'invalid-feedback': dataProduct.controls['date_release'].invalid
+            }"
+            id="date_release"
+            formControlName="date_release" (change)="setDateRevision()" />
+        </div>
+        <div class="col-12">
+          <label>Fecha Revision:</label>
+          <input
+            type="date"
+            name="date_revision"
+            [ngClass]="{
+              'form-control': true,
+              'invalid-feedback': dataProduct.controls['date_revision'].invalid
+            }"
+            id="date_release"
+            value="{{ dataProduct.controls['date_revision'].value | date:'yyyy-MM-dd' }}"
+            formControlName="date_revision" readonly />
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary" [disabled]="dataProduct.invalid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

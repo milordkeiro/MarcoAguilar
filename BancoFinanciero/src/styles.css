@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+.table{
+  width: 100%;
+  margin-bottom: 1rem;
+  vertical-align: top;
+  border-color: #ccc;
+}
+th, td {
+  width: 25%;
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #000;
+  border-collapse: collapse;
+  padding: 0.3em;
+}
+.invalid-feedback{
+  border: 1px solid red;
+}
