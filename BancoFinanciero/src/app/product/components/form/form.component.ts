@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, map, of } from 'rxjs';
 import { Product } from 'src/app/core/models/product';
 import { ProductService } from 'src/app/services/product.service';
+
+
 
 @Component({
   selector: 'app-form',
@@ -19,8 +22,7 @@ export class FormComponent implements OnInit {
       Validators.minLength(3),
       Validators.maxLength(10),
       Validators.required,
-      this.verifyId
-    ]),
+    ], this.verifyId.bind(this)),
     name: new FormControl<string>('', [
       Validators.minLength(5),
       Validators.maxLength(100),
@@ -44,7 +46,8 @@ export class FormComponent implements OnInit {
 
   });
 
-  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute)
+  constructor(private productService: ProductService,
+    private activatedRoute: ActivatedRoute, private router:Router)
   {
 
   }
@@ -92,7 +95,9 @@ export class FormComponent implements OnInit {
     if(this.isNewProduct)
     {
       this.productService.addProduct(this.product).subscribe((res)=>{
-        console.log("New product", res);
+        console.log("Added product", res);
+        this.dataProduct.reset();
+        this.router.navigate(["/"]);
       }, err =>{
         console.warn("Error to request");
       }
@@ -101,7 +106,9 @@ export class FormComponent implements OnInit {
     else
     {
       this.productService.updateProduct(this.product).subscribe((res)=>{
-        console.log("New product", res);
+        console.log("Updated product", res);
+        this.dataProduct.reset();
+        this.router.navigate(["/"]);
       }, err =>{
         console.warn("Error to request");
       }
@@ -121,14 +128,25 @@ export class FormComponent implements OnInit {
     }
   }
 
-  verifyId(control:AbstractControl)
+  verifyId(control:AbstractControl): Observable<any>
   {
     const value = control.value;
-    this.productService.verifyId(value).subscribe(res => {
-      return { required: true };
+    if(this.isNewProduct)
+    {
+      return this.productService.verifyId(value).pipe(
+        map((res)=> {
+          if(String(res) === 'true')
+            {
+              return {verifyId: true}
+            }
+          else return null;
+      }),
+      );
+    }
+    else{
+      return of(null);
+    }
 
-    })
-    return null;
   }
 
   setDateRevision()

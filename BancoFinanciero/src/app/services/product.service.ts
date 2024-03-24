@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 import { Product } from '../core/models/product';
 
 @Injectable({
@@ -39,7 +39,7 @@ export class ProductService {
   {
     return this.http.get('https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros/bp/products/verification?id='+id)
           .pipe(
-              catchError(this.handleError)
+           catchError(this.handleError)
           );
   }
 

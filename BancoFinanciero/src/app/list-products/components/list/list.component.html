@@ -2,6 +2,11 @@
   <div class="row">
     <div class="col-12">
       <div>
+        <form>
+          <input type="text" name="keywordSearch" [(ngModel)]="keywordSearch"
+            (keypress)="searchProduct()" (keydown.backspace)="searchProduct()"/>
+        </form>
+        {{keywordSearch}}
         <a routerLink="/product/new" class="btn btn-primary">Agregar</a>
       </div>
       <table class="table">
@@ -16,8 +21,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of totalProducts">
-            <th scope="row"><img [src]="product.logo" class="img-responsive" alt=""></th>
+          <tr *ngFor="let product of listedProducts">
+            <th scope="row"><img [src]="product.logo" class="img-responsive logo-product" alt=""></th>
             <td>{{product.name}}</td>
             <td>{{product.description}}</td>
             <td>{{product.date_release}}</td>
@@ -28,6 +33,12 @@
       </table>
       <div>
         <strong>Total products:</strong> {{totalProducts?.length}}
+        <select name="perPage" [(ngModel)]="itemsPerPage" (change)="initPerPage()">
+          <option *ngFor="let cant of listPerPage" [value]="cant">{{cant}}</option>
+        </select>
+        <button class="btn btn-primary" (click)="goToPreviousPage()">Anterior</button>
+        {{currentPage}} / {{totalPages}}
+        <button class="btn btn-primary" (click)="goToNextPage()">Siguiente</button>
       </div>
     </div>
   </div>

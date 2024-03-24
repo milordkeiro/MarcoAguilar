@@ -9,6 +9,12 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ListComponent implements OnInit{
 
+  keywordSearch:string="";
+  currentPage:number = 1;
+  listPerPage:number[] = [2, 3, 5];
+  itemsPerPage:number = this.listPerPage[0];
+  totalPages:number = 0;
+
   totalProducts:Product[] | undefined;
   listedProducts:Product[] | undefined;
 
@@ -18,7 +24,66 @@ export class ListComponent implements OnInit{
   ngOnInit(){
     this.productService.listProducts().subscribe((res:any)=>{
       this.totalProducts = res;
+      //this.listedProducts = res;
+      this.initPerPage()
+      this.paginationProducts();
     });
+  }
+
+  searchProduct()
+  {
+    this.listedProducts = [];
+    let keyword = this.keywordSearch.trim();
+    keyword = keyword.toLowerCase();
+    if(keyword.length >=2)
+    {
+      this.totalProducts?.forEach((product:Product) => {
+        if(product.name.toLowerCase().includes(keyword) ||
+           product.description.toLowerCase().includes(keyword))
+        {
+          this.listedProducts?.push(product);
+        }
+      });
+      console.log('Search',this.listedProducts);
+    }
+    else{
+      //this.listedProducts = this.totalProducts;
+      this.initPerPage();
+    }
+    console.warn(this.totalProducts);
+  }
+
+  paginationProducts()
+  {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.listedProducts = this.totalProducts?.slice(startIndex, endIndex);
+  }
+  // Función para ir a la página anterior
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginationProducts();
+    }
+  }
+
+  // Función para ir a la página siguiente
+  goToNextPage() {
+    let totalProd = this.totalProducts?.length ? this.totalProducts.length : 0;
+    this.totalPages = Math.ceil(totalProd / this.itemsPerPage);
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.paginationProducts();
+    }
+  }
+
+  initPerPage()
+  {
+    this.currentPage = 1;
+    let totalProd = this.totalProducts?.length ? this.totalProducts.length : 0;
+    this.totalPages = Math.ceil(totalProd / this.itemsPerPage);
+    console.log("cambio",this.itemsPerPage);
+    this.paginationProducts();
   }
 
   /*+++++
