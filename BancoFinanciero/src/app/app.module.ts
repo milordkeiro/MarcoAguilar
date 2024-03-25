@@ -8,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './layouts/header/header.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorInterceptor } from './services/interceptor.interceptor';
+import { ListProductsModule } from './list-products/list-products.module';
+import { ProductModule } from './product/product.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { InterceptorInterceptor } from './services/interceptor.interceptor';
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
+    ListProductsModule,
+    ProductModule,
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass:InterceptorInterceptor, multi:true}],
   bootstrap: [AppComponent]
