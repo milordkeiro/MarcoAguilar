@@ -1,21 +1,235 @@
 /* You can add global styles to this file, and also import other style files */
-.table{
+html, body{
+  margin: 0px;
+  padding: 0px;
+  background-color: #f4f6f9;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+
+header{
+  background-color: #fff;
+  text-align: center;
+  padding: 30px 10px;
+}
+header h1{margin: 0px;}
+.table-responsive{
+  overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Estilo básico para la tabla */
+.table {
   width: 100%;
   margin-bottom: 1rem;
-  vertical-align: top;
-  border-color: #ccc;
-}
-th, td {
-  width: 25%;
-  text-align: left;
-  vertical-align: top;
-  border: 1px solid #000;
+  color: #212529;
   border-collapse: collapse;
-  padding: 0.3em;
 }
-.invalid-feedback{
-  border: 1px solid red;
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
 }
+
+/* Estilo para las filas de la tabla */
+.table tbody tr:nth-of-type(odd) {
+  background-color: rgba(179, 179, 179, 0.1);
+}
+
+/* Estilo para los encabezados de la tabla */
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+}
+
+/* Estilo para las celdas de encabezado de la tabla */
+.table th {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Estilo para las celdas de la tabla */
+.table td {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Estilo para la tabla de borde oscuro */
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+/* Estilo para las celdas de la tabla de borde oscuro */
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
 .table .logo-product{
   max-width: 100px;
+}
+
+.container{
+  width: 100%;
+  max-width: 1024px;
+  margin: 25px auto;
+  padding: 25px 15px;
+  background-color: #fff;
+}
+
+.btn{
+  padding: 10px 15px;
+  border-radius: 50px;
+  color: #212529;
+  text-decoration: none;
+  border: none;
+  width: 100%;
+  max-width: 100px;
+  min-width: 100px;
+}
+.btn-primary{
+  background-color: #f5df66;
+}
+.btn-secondary{
+  background-color: #eaecf2;
+}
+.btn-danger{
+  background-color: #d30202;
+  color: #fff;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: normal;
+  align-items: normal;
+  align-content: normal;
+  padding: 15px 0px;
+}
+.flex-items {
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
+.search-form{
+  width: 40%;
+
+}
+.add-btn-container{
+  text-align: right;
+  width: 60%;
+
+}
+
+.input-text {
+  display: inline-block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.options-table{
+  width: 33.33%;
+  text-align: center;
+}
+.row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+.row .col-m-50{
+  flex: 0 0 auto;
+  width: 46%;
+  padding: 0px 15px;
+  margin-bottom: 15px;
+}
+.text-center{
+  text-align: center;
+}
+.invalid-feedback{
+  border: 1px solid #d30202;
+}
+.text-danger{
+  color: #d30202;
+}
+.readonly{
+  background-color: #f2f4f7;
+}
+
+/* Estilo para el modal */
+.modal {
+  /* display: none; */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Estilo para el contenido del modal */
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.action-icon{
+  width: 25px;
+  height: 25px;
+}
+
+@media (max-width: 445px)
+{
+  .flex-container .flex-items{
+    min-height: 40px;
+  }
+  .options-table{
+    width: 100%;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  .search-form{
+    width: 50%;
+
+  }
+  .add-btn-container{
+    text-align: right;
+    width: 50%;
+  }
+  .row .col-100{
+    flex: 0 0 auto;
+    width: 80%;
+    padding: 0px 15px;
+    margin-bottom: 15px;
+  }
+  .modal-content{
+    width: 80%;
+  }
 }

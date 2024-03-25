@@ -43,19 +43,31 @@ export class ProductService {
           );
   }
 
+  deleteProduct(id:string)
+  {
+    return this.http.delete('https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros/bp/products?id='+id)
+          .pipe(
+           catchError(this.handleError)
+          );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
-      // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error);
+      alert('Verifique el estado de conexion a internet');
     } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong.
+      if(error.status == 400)
+      {alert('Solicitud erronea: '+error.error)}
+      if(error.status == 206)
+      {alert('Información no valida: '+error.error)}
+      if(error.status == 401)
+      {alert('No autorizado: '+error.error)}
+      if(error.status == 404)
+      {alert('No encontrado: '+error.error)}
       console.error(
         `Backend returned code ${error.status}, body was: `, error.error);
-        // toast.warning(error.error,'Sucedio algo...',
-        //                     {closeButton: true, positionClass: 'toast-bottom-center'});
+
     }
-    // Return an observable with a user-facing error message.
     return throwError(
       'Error en la conexion. Intente nuevamente');
   }

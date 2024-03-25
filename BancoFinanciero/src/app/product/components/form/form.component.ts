@@ -157,5 +157,9 @@ export class FormComponent implements OnInit {
     this.dataProduct.controls['date_revision'].setValue(dateRevision);
   }
 
+  goBack()
+  {
+    this.router.navigate(["/"]);
+  }
 
 }

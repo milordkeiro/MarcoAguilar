@@ -14,6 +14,8 @@ export class ListComponent implements OnInit{
   listPerPage:number[] = [2, 3, 5];
   itemsPerPage:number = this.listPerPage[0];
   totalPages:number = 0;
+  showingModalDelete:boolean = false;
+  deleteProducto:Product | undefined;
 
   totalProducts:Product[] | undefined;
   listedProducts:Product[] | undefined;
@@ -22,6 +24,11 @@ export class ListComponent implements OnInit{
 
   }
   ngOnInit(){
+    this.initListProducts();
+  }
+
+  initListProducts()
+  {
     this.productService.listProducts().subscribe((res:any)=>{
       this.totalProducts = res;
       //this.listedProducts = res;
@@ -94,6 +101,26 @@ export class ListComponent implements OnInit{
   editProduct(product:Product)
   {
     localStorage.setItem('productSelected', JSON.stringify(product));
+  }
+
+  showModalDeleteProduct(product:Product)
+  {
+    this.showingModalDelete = true;
+    this.deleteProducto = product;
+  }
+
+  cancelModalDeleteProduct()
+  {
+    this.showingModalDelete = false;
+    this.deleteProducto = undefined;
+  }
+  confirmDeleteProduct()
+  {
+    this.productService.deleteProduct(this.deleteProducto!.id).subscribe((res)=>{
+      this.initListProducts();
+      this.showingModalDelete = false;
+      this.deleteProducto = undefined;
+    })
   }
 
 }

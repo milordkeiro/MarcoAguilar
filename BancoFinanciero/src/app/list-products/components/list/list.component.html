@@ -1,45 +1,84 @@
 <div class="container">
-  <div class="row">
-    <div class="col-12">
-      <div>
-        <form>
-          <input type="text" name="keywordSearch" [(ngModel)]="keywordSearch"
-            (keypress)="searchProduct()" (keydown.backspace)="searchProduct()"/>
-        </form>
-        {{keywordSearch}}
-        <a routerLink="/product/new" class="btn btn-primary">Agregar</a>
+  <h2>List of products</h2>
+
+  <div class="">
+
+      <div class="flex-container">
+        <div class="flex-items search-form">
+          <form>
+            <input type="text" class="input-text" name="keywordSearch" [(ngModel)]="keywordSearch"
+              (keypress)="searchProduct()" (keydown.backspace)="searchProduct()"
+              placeholder="Buscar..."/>
+          </form>
+        </div>
+        <div class="flex-items add-btn-container">
+          <a routerLink="/product/new" class="btn btn-primary">Agregar</a>
+        </div>
       </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Logo</th>
-            <th scope="col">Nombre del producto</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Fecha de liberacion</th>
-            <th scope="col">Fecha de restructuracion</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let product of listedProducts">
-            <th scope="row"><img [src]="product.logo" class="img-responsive logo-product" alt=""></th>
-            <td>{{product.name}}</td>
-            <td>{{product.description}}</td>
-            <td>{{product.date_release}}</td>
-            <td>{{product.date_revision}}</td>
-            <td><a [routerLink]="['/product/', product.id]" (click)="editProduct(product)">Editar</a></td>
-          </tr>
-        </tbody>
-      </table>
-      <div>
-        <strong>Total products:</strong> {{totalProducts?.length}}
-        <select name="perPage" [(ngModel)]="itemsPerPage" (change)="initPerPage()">
-          <option *ngFor="let cant of listPerPage" [value]="cant">{{cant}}</option>
-        </select>
-        <button class="btn btn-primary" (click)="goToPreviousPage()">Anterior</button>
-        {{currentPage}} / {{totalPages}}
-        <button class="btn btn-primary" (click)="goToNextPage()">Siguiente</button>
+
+  </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Logo</th>
+              <th scope="col">Nombre del producto</th>
+              <th scope="col">Descripcion</th>
+              <th scope="col">Fecha de liberacion</th>
+              <th scope="col">Fecha de restructuracion</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of listedProducts">
+              <td scope="row"><img [src]="product.logo" class="img-responsive logo-product" alt=""></td>
+              <td>{{product.name}}</td>
+              <td>{{product.description}}</td>
+              <td>{{product.date_release | date: 'mediumDate'}}</td>
+              <td>{{product.date_revision | date: 'mediumDate'}}</td>
+              <td>
+                <a [routerLink]="['/product/', product.id]" (click)="editProduct(product)">
+                  <img src="/assets/images/edit_icon.svg" class="action-icon" alt="Editar" title="Editar producto">
+                </a> |
+                <a [routerLink]="[]" (click)="showModalDeleteProduct(product)">
+                  <img src="/assets/images/delete_icon.svg" class="action-icon" alt="Eliminar" title="Eliminar producto">
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
+      <div class="flex-container">
+        <div class="flex-items options-table">
+          <strong>Total productos:</strong> {{totalProducts?.length}}
+        </div>
+        <div class="flex-items options-table">
+          <button class="btn btn-secondary" (click)="goToPreviousPage()">Anterior</button>
+          {{currentPage}} / {{totalPages}}
+          <button class="btn btn-secondary" (click)="goToNextPage()">Siguiente</button>
+        </div>
+        <div class="flex-items options-table">
+          <label >Cantidad por pagina: </label>
+          <select name="perPage" [(ngModel)]="itemsPerPage" (change)="initPerPage()">
+            <option *ngFor="let cant of listPerPage" [value]="cant">{{cant}}</option>
+          </select>
+        </div>
+
+
+      </div>
+
+
+<!-- Modal -->
+<div *ngIf="showingModalDelete" id="modal" class="modal">
+  <div class="modal-content">
+    <h3>Estas seguro de eliminar el producto:<br>
+      <strong>{{deleteProducto?.name}}</strong> ?
+    </h3>
+    <div class="text-center">
+      <button class="btn btn-secondary" (click)="cancelModalDeleteProduct()">Cancelar</button> |
+      <button class="btn btn-danger" (click)="confirmDeleteProduct()">Confirmar</button>
     </div>
   </div>
 </div>

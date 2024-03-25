@@ -2,87 +2,109 @@
   <div class="row">
     <h2>Formulario de registro</h2>
   </div>
-  <div class="row">
-    <div>
-      <form [formGroup]="dataProduct" (ngSubmit)="saveProduct()">
-        <div class="col-12">
-          <label>ID:</label>
-          <input
-            type="text"
-            name="idProduct"
-            [ngClass]="{
-              'form-control': true,
-              'invalid-feedback': dataProduct.controls['idProduct'].invalid
-            }"
-            id="idProduct"
-            [readOnly]="!isNewProduct"
-            formControlName="idProduct" />
-        </div>
-        <div class="col-12">
-          <label>Nombre:</label>
-          <input
-            type="text"
-            name="name"
-            [ngClass]="{
-              'form-control': true,
-              'invalid-feedback': dataProduct.controls['name'].invalid
-            }"
-            id="name"
-            formControlName="name" />
-        </div>
-        <div class="col-12">
-          <label>Descripcion:</label>
-          <input
-            type="text"
-            name="description"
-            [ngClass]="{
-              'form-control': true,
-              'invalid-feedback': dataProduct.controls['description'].invalid
-            }"
-            id="description"
-            formControlName="description" />
-        </div>
-        <div class="col-12">
-          <label>Logo:</label>
-          <input
-            type="text"
-            name="logo"
-            [ngClass]="{
-              'form-control': true,
-              'invalid-feedback': dataProduct.controls['logo'].invalid
-            }"
-            id="logo"
-            formControlName="logo" />
-        </div>
-        <div class="col-12">
-          <label>Fecha liberacion:</label>
-          <input
-            type="date"
-            name="date_release"
-            [ngClass]="{
-              'form-control': true,
-              'invalid-feedback': dataProduct.controls['date_release'].invalid
-            }"
-            id="date_release"
-            formControlName="date_release" (change)="setDateRevision()" />
-        </div>
-        <div class="col-12">
-          <label>Fecha Revision:</label>
-          <input
-            type="date"
-            name="date_revision"
-            [ngClass]="{
-              'form-control': true,
-              'invalid-feedback': dataProduct.controls['date_revision'].invalid
-            }"
-            id="date_release"
-            value="{{ dataProduct.controls['date_revision'].value | date:'yyyy-MM-dd' }}"
-            formControlName="date_revision" readonly />
-        </div>
-        <div>
-          <button type="submit" class="btn btn-primary" [disabled]="dataProduct.invalid">Submit</button>
-        </div>
-      </form>
-    </div>
-  </div>
+
+    <form [formGroup]="dataProduct" ngForm (ngSubmit)="saveProduct()">
+      <div class="row">
+
+      <div class="col-100 col-m-50">
+        <label>ID:</label>
+        <input
+          type="text"
+          name="idProduct"
+          [ngClass]="{
+            'input-text': true,
+            'readonly' :!isNewProduct,
+            'invalid-feedback': (dataProduct.controls['idProduct'].invalid && dataProduct.controls['idProduct'].touched)
+          }"
+          id="idProduct"
+          [readOnly]="!isNewProduct"
+          formControlName="idProduct" />
+          <small *ngIf="dataProduct.controls['idProduct'].invalid && dataProduct.controls['idProduct'].touched" class="text-danger">
+            ID no válido o ya existe
+          </small>
+      </div>
+      <div class="col-100 col-m-50">
+        <label>Nombre:</label>
+        <input
+          type="text"
+          name="name"
+          [ngClass]="{
+            'input-text': true,
+            'invalid-feedback': (dataProduct.controls['name'].invalid && dataProduct.controls['name'].touched)
+          }"
+          id="name"
+          formControlName="name" />
+          <small *ngIf="dataProduct.controls['name'].invalid && dataProduct.controls['name'].touched" class="text-danger">
+            Requerido, mínimo 5 caracteres y máximo 100
+          </small>
+      </div>
+      <div class="col-100 col-m-50">
+        <label>Descripción:</label>
+        <input
+          type="text"
+          name="description"
+          [ngClass]="{
+            'input-text': true,
+            'invalid-feedback': (dataProduct.controls['description'].invalid && dataProduct.controls['description'].touched)
+          }"
+          id="description"
+          formControlName="description" />
+          <small *ngIf="dataProduct.controls['description'].invalid && dataProduct.controls['description'].touched" class="text-danger">
+            Requerido, mínimo 10 caracteres y máximo 200
+          </small>
+      </div>
+      <div class="col-100 col-m-50">
+        <label>Logo:</label>
+        <input
+          type="text"
+          name="logo"
+          [ngClass]="{
+            'input-text': true,
+            'invalid-feedback': (dataProduct.controls['logo'].invalid && dataProduct.controls['logo'].touched)
+          }"
+          id="logo"
+          formControlName="logo" />
+          <small *ngIf="dataProduct.controls['logo'].invalid && dataProduct.controls['logo'].touched" class="text-danger">
+            Requerido
+          </small>
+      </div>
+      <div class="col-100 col-m-50">
+        <label>Fecha liberación:</label>
+        <input
+          type="date"
+          name="date_release"
+          [ngClass]="{
+            'input-text': true,
+            'invalid-feedback': (dataProduct.controls['date_release'].invalid && dataProduct.controls['date_release'].touched)
+          }"
+          id="date_release"
+          formControlName="date_release" (change)="setDateRevision()" />
+          <small *ngIf="dataProduct.controls['date_release'].invalid && dataProduct.controls['date_release'].touched" class="text-danger">
+            Requerido. La fecha debe ser igual o menor a la actual
+          </small>
+      </div>
+      <div class="col-100 col-m-50">
+        <label>Fecha Revisión:</label>
+        <input
+          type="date"
+          name="date_revision"
+          [ngClass]="{
+            'input-text readonly': true,
+            'invalid-feedback': (dataProduct.controls['date_revision'].invalid && dataProduct.controls['date_revision'].touched)
+          }"
+          id="date_release"
+          value="{{ dataProduct.controls['date_revision'].value | date:'yyyy-MM-dd' }}"
+          formControlName="date_revision" readonly />
+        <small *ngIf="dataProduct.controls['date_revision'].invalid && dataProduct.controls['date_revision'].touched" class="text-danger">
+          Requerido. La fecha debe ser exactamente aun año posterior a la fecha de liberación
+        </small>
+      </div>
+      </div>
+      <div class="text-center ">
+        <button (click)="goBack()" class="btn btn-secondary">Atras</button>
+        |
+        <button type="submit" class="btn btn-primary" [disabled]="dataProduct.invalid">Enviar</button>
+      </div>
+    </form>
+
 </div>
